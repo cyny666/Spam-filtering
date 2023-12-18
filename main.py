@@ -17,7 +17,9 @@ def ocr_mail(path):
     filtered_data = []
     # 遍历每个元素，检查高度是否大于90
     for element in content:
-        if element['position'][3][1] > 100 and "下载" not in element['text'] and "显示" not in element['text'] :
+        if element['position'][3][1] > 120 :
+            filtered_data.append(element['text'])
+        elif element['position'][3][1] > 100 and "下载" not in element['text'] and "显示" not in element['text']:
             filtered_data.append(element['text'])
     mail_content = ''.join(filtered_data)
     if mail_content.startswith("A文"):
