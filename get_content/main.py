@@ -8,10 +8,10 @@ import requests.utils
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import csv
-name = ""
-passwd = ""
+name = "chenyang0"
+passwd = "chen120111"
 data = []
-def ocr_mail(path):
+def ocr_mail(path,title):
     global data
     mail_ocr = CnOcr()
     content = mail_ocr.ocr(path)
@@ -19,18 +19,11 @@ def ocr_mail(path):
     filtered_data = []
     # 遍历每个元素，检查高度是否大于90
     for element in content:
-        if element['position'][3][1] > 120 :
-            filtered_data.append(element['text'])
-        elif element['position'][3][1] > 100 and "下载" not in element['text'] and "显示" not in element['text']:
             filtered_data.append(element['text'])
     mail_content = ''.join(filtered_data)
-    if mail_content.startswith("A文"):
-        mail_content = mail_content.replace("A文", "")
     # data的数据列表:题目、时间、发件人、
     data.append({
-        '题目': content[0]['text'],
-        '时间': content[1]['text'],
-        '发件人': content[3]['text'],
+        '题目': title,
         '内容': mail_content
 
     })
@@ -73,9 +66,10 @@ def get_content():
     for li in li_elements:
         li.click()
         time.sleep(2)
-        mail_content = driver.find_element(By.ID, "zv__TV-main__MSG")
+        mail_content = driver.find_element(By.ID, "zv__TV-main__MSG__body")
         mail_content.screenshot("./imgs/test"+str(number)+".png")
-        ocr_mail("./imgs/test"+str(number)+".png")
+        title = driver.find_element(By.XPATH,"/html/body/div[4]/div[10]/div[2]/div[1]/table/tbody/tr/td[2]/div/table[1]/tbody/tr/td[2]")
+        ocr_mail("./imgs/test"+str(number)+".png",title.text)
         number += 1
         time.sleep(2)
     # 写入 CSV 文件
@@ -84,11 +78,11 @@ def get_content():
         csv_writer = csv.writer(csv_file)
 
         # 写入表头
-        csv_writer.writerow(['题目', '时间', '发件人', '内容'])
+        csv_writer.writerow(['题目', '内容'])
 
         # 写入数据
         for item in data:
-            csv_writer.writerow([item['题目'], item['时间'], item['发件人'], item['内容']])
+            csv_writer.writerow([item['题目'],item['内容']])
 
     print(f'数据已成功写入 CSV 文件: mail_content.csv')
     driver.quit()
