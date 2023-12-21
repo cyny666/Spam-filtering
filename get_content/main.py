@@ -8,8 +8,8 @@ import requests.utils
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import csv
-name = "chenyang0"
-passwd = "chen120111"
+name = ""
+passwd = ""
 data = []
 def ocr_mail(path,title):
     global data
