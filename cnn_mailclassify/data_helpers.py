@@ -5,7 +5,7 @@ import re
 import itertools
 from collections import Counter
 import os
-import word2vec_helpers
+from cnn_mailclassify import word2vec_helpers
 import time
 import pickle
 
