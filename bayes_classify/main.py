@@ -195,7 +195,7 @@ def classify_based_on_csv(csv_file_path, ham_word_dict_path, spam_word_dict_path
     content_list = []
 
     for data in data_list:
-        content_list.append(data[3])
+        content_list.append(data[1])
     print(content_list)
 
     # 读取关键字文件

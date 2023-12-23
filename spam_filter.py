@@ -4,9 +4,9 @@ from cnn_tool import csv2txt
 from cnn_tool import getlabel
 import os
 
-def get_result(name,passwd):
+if __name__ == '__main__':
     # 获取邮件内容csv
-    get_content(name,passwd)
+    # get_content()
 
     csv2txt()#把csv文件里的读成cnn方法需要的格式
 
