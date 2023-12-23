@@ -1,8 +1,8 @@
 import tkinter as tk
 import base64
-from spam_filter import get_result
+import os
 # 设置是否记录的标志 1表示记录 0表示不记录
-remind_passwd = 0
+remind_passwd = 1
 def center_window(window, width, height):
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
@@ -22,7 +22,10 @@ def on_checkbox_click():
     else:
         remind_passwd = 0
 def on_submit():
+    global remind_passwd
     if remind_passwd == 0:
+        with open('user.txt', 'w') as file:
+            file.truncate(0)
         root.destroy()
         return 1
     else:
@@ -40,19 +43,38 @@ def on_submit():
         return 1
 
 if __name__ == "__main__":
+    if os.path.getsize("./user.txt") != 0:
+        data = []
+        with open('user.txt', 'r') as file:
+            for line in file:
+                encoded_string = line.strip()
+                print(encoded_string)
+                data.append(encoded_string)
+        # 解码用户名和密码
+        username = base64.b64decode(data[0]).decode('utf-8')
+        password = base64.b64decode(data[1]).decode('utf-8')
+    else:
+        username = " "
+        password = " "
+
+    # The rest of your code remains unchanged...
+
     root = tk.Tk()
     root.title("垃圾过滤系统")
     center_window(root, 400, 300)
     jaccount_label = tk.Label(root, text="jaccount账号")
     passwd_label = tk.Label(root, text="密码")
     jaccount_entry = tk.Entry(root)
+    jaccount_entry.insert(0,username)
     passwd_entry = tk.Entry(root)
+    passwd_entry.insert(0,password)
     jaccount_label.place(x=50, y=50)  # Adjust the coordinates as needed
     jaccount_entry.place(x=150, y=50)  # Adjust the coordinates as needed
     passwd_entry.place(x=150,y=100)
     passwd_label.place(x=50,y=100)
     # 使用 IntVar 来跟踪勾选框的状态
     checkbox_var = tk.IntVar()
+    checkbox_var.set(1)
     # 创建勾选框，关联变量 checkbox_var，设置回调函数 on_checkbox_click
     checkbox = tk.Checkbutton(root, text="记住用户密码", variable=checkbox_var, command=on_checkbox_click)
 
