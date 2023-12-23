@@ -8,8 +8,6 @@ import requests.utils
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import csv
-name = ""
-passwd = ""
 data = []
 def ocr_mail(path,title):
     global data
@@ -29,7 +27,7 @@ def ocr_mail(path,title):
     })
     print(data)
 
-def get_content():
+def get_content(name,passwd):
     global data
     ocr = ddddocr.DdddOcr()
     driver = webdriver.Chrome()
