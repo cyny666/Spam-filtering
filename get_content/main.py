@@ -8,6 +8,7 @@ import requests.utils
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import csv
+import os
 data = []
 def ocr_mail(path,title):
     global data
@@ -65,13 +66,13 @@ def get_content(name,passwd):
         li.click()
         time.sleep(2)
         mail_content = driver.find_element(By.ID, "zv__TV-main__MSG__body")
-        mail_content.screenshot("./imgs/test"+str(number)+".png")
+        mail_content.screenshot("get_content/imgs/test"+str(number)+".png")
         title = driver.find_element(By.XPATH,"/html/body/div[4]/div[10]/div[2]/div[1]/table/tbody/tr/td[2]/div/table[1]/tbody/tr/td[2]")
-        ocr_mail("./imgs/test"+str(number)+".png",title.text)
+        ocr_mail("get_content/imgs/test"+str(number)+".png",title.text)
         number += 1
         time.sleep(2)
     # 写入 CSV 文件
-    with open("mail_content.csv", 'w', newline='', encoding='utf-8') as csv_file:
+    with open("./mail_content.csv", 'w', newline='', encoding='utf-8') as csv_file:
         # 创建 CSV 写入对象
         csv_writer = csv.writer(csv_file)
 

@@ -1,6 +1,11 @@
 import tkinter as tk
 import base64
 import os
+from spam_filter import get_result
+from get_content.main import get_content
+import subprocess
+import csv
+from tkinter import messagebox
 # 设置是否记录的标志 1表示记录 0表示不记录
 remind_passwd = 1
 def center_window(window, width, height):
@@ -11,6 +16,33 @@ def center_window(window, width, height):
     y = (screen_height - height) // 2
 
     window.geometry(f'{width}x{height}+{x}+{y}')
+def evaluation():
+    username = jaccount_entry.get()
+    passwd = passwd_entry.get()
+    username = username.strip()
+    passwd = passwd.strip()
+    print(username)
+    print(passwd)
+    # 开始爬取获得结果
+    get_content(username, passwd)
+    # cnn生成文件
+    subprocess.run('./cnn.bat',shell=True)
+    # 获取result
+    targets = get_result()
+    print(targets)
+    titles = []
+    with open('mail_content.csv', newline='', encoding='utf-8') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        # 逐行读取数据
+        # 逐行读取第一列的值
+        first_column_values = [row[0] for row in csv_reader]
+        for target in targets:
+            titles.append(first_column_values[target + 1])
+    # 将列表转换为字符串
+    titles_str = ", ".join(titles)
+    # 在消息框中显示标题
+    messagebox.showinfo("提示", f"我们检测到可能被错误放置的垃圾邮件为: {titles_str}")
+
 def on_checkbox_click():
     global remind_passwd
     # 获取勾选框的状态
@@ -23,6 +55,7 @@ def on_checkbox_click():
         remind_passwd = 0
 def on_submit():
     global remind_passwd
+    evaluation()
     if remind_passwd == 0:
         with open('user.txt', 'w') as file:
             file.truncate(0)
@@ -54,8 +87,8 @@ if __name__ == "__main__":
         username = base64.b64decode(data[0]).decode('utf-8')
         password = base64.b64decode(data[1]).decode('utf-8')
     else:
-        username = " "
-        password = " "
+        username = ""
+        password = ""
 
     # The rest of your code remains unchanged...
 
@@ -66,7 +99,7 @@ if __name__ == "__main__":
     passwd_label = tk.Label(root, text="密码")
     jaccount_entry = tk.Entry(root)
     jaccount_entry.insert(0,username)
-    passwd_entry = tk.Entry(root)
+    passwd_entry = tk.Entry(root,show='*')
     passwd_entry.insert(0,password)
     jaccount_label.place(x=50, y=50)  # Adjust the coordinates as needed
     jaccount_entry.place(x=150, y=50)  # Adjust the coordinates as needed

@@ -2,7 +2,7 @@ import csv
 
 def getlabel():
     cnn_classify_answer = []
-    with open("cnn_mailclassify/runs/1703174089/prediction.csv", "r") as f:
+    with open("cnn_mailclassify/runs/1703395381/prediction.csv", "r") as f:
         reader = csv.reader(f)
 
         for row in reader:

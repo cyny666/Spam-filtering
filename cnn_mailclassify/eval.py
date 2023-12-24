@@ -13,7 +13,7 @@ import csv
 tf.flags.DEFINE_string("input_text_file", "./mail_content.utf8", "Test text data source to evaluate.")
 tf.flags.DEFINE_string("input_label_file", "", "Label file for test text data source.")
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
-tf.flags.DEFINE_string("checkpoint_dir", "./cnn_mailclassify/runs/1703174089/checkpoints",
+tf.flags.DEFINE_string("checkpoint_dir", "./cnn_mailclassify/runs/1703395381/checkpoints",
                        "Checkpoint directory from training run")
 tf.flags.DEFINE_boolean("eval_train", True, "Evaluate on all training data")
 tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device placement")

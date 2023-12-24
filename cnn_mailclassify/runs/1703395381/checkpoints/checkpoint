@@ -1,0 +1,2 @@
+model_checkpoint_path: "C:\\Users\\86186\\Desktop\\Spam-filtering\\cnn_mailclassify\\runs\\1703395381\\checkpoints\\model-100"
+all_model_checkpoint_paths: "C:\\Users\\86186\\Desktop\\Spam-filtering\\cnn_mailclassify\\runs\\1703395381\\checkpoints\\model-100"
